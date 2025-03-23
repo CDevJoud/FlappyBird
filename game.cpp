@@ -7,19 +7,6 @@
 
 class Console {
 public:
-	Console() {
-		m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-		if (m_hConsole == nullptr) {
-			AllocConsole();
-			m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-			assert((m_hConsole != nullptr) && "Could Not Create Console Window!");
-		}
-		this->m_bIsOpen = bool(this->m_hConsole);
-	}
-	virtual ~Console() {
-		FreeConsole();
-		delete[] buffer;
-	}
 	Console(WORD width, WORD height, BYTE pw, BYTE ph) {
 		m_hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 		if (m_hConsole == nullptr) {
@@ -57,6 +44,10 @@ public:
 		SetConsoleWindowInfo(this->m_hConsole, TRUE, &viewport);
 
 		this->m_bIsOpen = bool(this->m_hConsole);
+	}
+	virtual ~Console() {
+		FreeConsole();
+		delete[] buffer;
 	}
 	HANDLE GetNativeHandle() const {
 		return this->m_hConsole;
